@@ -22,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/SEAPUNK/reservable/issues"
   },
-  "homepage": "https://github.com/SEAPUNK/reservable#readme"
+  "homepage": "https://github.com/SEAPUNK/reservable#readme",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "livescript": "^1.4.0",
+    "suspend": "^0.7.0"
+  }
 }
