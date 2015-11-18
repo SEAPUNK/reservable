@@ -1,0 +1,26 @@
+{
+  "name": "reservable",
+  "version": "0.0.0",
+  "description": "socket.io middleware to simplify client action reservations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/SEAPUNK/reservable.git"
+  },
+  "keywords": [
+    "socket.io",
+    "socketio",
+    "reservations",
+    "reservable",
+    "reserve"
+  ],
+  "author": "ivan k <ivan@sq10.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SEAPUNK/reservable/issues"
+  },
+  "homepage": "https://github.com/SEAPUNK/reservable#readme"
+}
