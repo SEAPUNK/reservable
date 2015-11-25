@@ -1,6 +1,10 @@
 reservable
 ===
 
+[![npm version](https://img.shields.io/npm/v/reservable.svg?style=flat-square)](https://npmjs.com/package/reservable)[![travis build](https://img.shields.io/travis/SEAPUNK/reservabe.svg?style=flat-square)](https://travis-ci.org/SEAPUNK/reservable)[![javascript standard style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
+
+---
+
 server
 ---
 
@@ -33,6 +37,7 @@ feedAction.onRelease = function (cleanRelease) {
 }
 
 io.listen(12345)
+
 ```
 
 attaches the following Socketeer action listeners:
@@ -111,15 +116,16 @@ var io = new socketeer.Client('ws://example.com')
 
 var feed = new reservable.Client(io, 'item-feed')
 
-io.on('open', function(){
-  feed.reserve().then(function(){
-    return feed.send("some stuff")
-  }).then(function(){
+io.on('open', function () {
+  feed.reserve().then(function () {
+    return feed.send('some stuff')
+  }).then(function () {
     return feed.release()
-  }).catch(function(err){
-    console.log("got error: "+err)
+  }).catch(function (err) {
+    console.log('got error: ' + err)
   })
 })
+
 ```
 
 ---
