@@ -103,4 +103,52 @@ gets a `ReservableServerAction` instance for an action
 client
 ---
 
-**TODO** documentation
+```javascript
+var socketeer = require('socketeer')
+var reservable = require('reservable')
+
+var io = new socketeer.Client('ws://example.com')
+
+var feed = new reservable.Client(io, 'item-feed')
+
+io.on('open', function(){
+  feed.reserve().then(function(){
+    return feed.send("some stuff")
+  }).then(function(){
+    return feed.release()
+  }).catch(function(err){
+    console.log("got error: "+err)
+  })
+})
+```
+
+---
+
+`new Client(io, action) -> ReservableClient`
+
+creates an instance of `ReservableClient`
+
+- `io` - the Socketeer client
+- `action` - the action to reserve
+
+
+`ReservableClient.reserve(name) -> Promise<null, err>`
+
+continuously attempts to reserve the action
+
+- `resolve`s when the client was able to reserve the action
+- `reject`s when the client encounters an error or a message other than "RESERVED" or "OK"
+
+`ReservableClient.send(data) -> Promise<response, err>`
+
+sends data to the reserved action
+
+- `resolve`s when the sending of data was successful
+  + `response` is the response from the server
+- `reject`s when the client encounters an error or if the sending of data was not successful for whatever reason
+
+`ReservableClient.release() -> Promise<null, err>`
+
+`resolve`s when the client was able to release the action
+  - this resolves even if the client did not reserve the action in the first place
+`reject`s when the client encounters an error or if the action is reserved to another client
