@@ -4,10 +4,10 @@ require! 'suspend'
 class ReservableServerClient
     (@client, @manager) ->
         @reserved = null
-        client.action '_reservable_reserve', @~handle-reserve
-        client.action '_reservable_data', @~handle-data
-        client.action '_reservable_release', @~handle-release
-        client.on 'close', @~handle-close
+        @client.action '_reservable_reserve', @~handle-reserve
+        @client.action '_reservable_data', @~handle-data
+        @client.action '_reservable_release', @~handle-release
+        @client.on 'close', @~handle-close
 
     /**
      * Handles a reserve attempt.

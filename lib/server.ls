@@ -8,8 +8,15 @@ class ReservableServer
         @actions = {}
         for action in @opts.[]actions
             @actions[action] = new ReservableServerAction action
-        @io.use(client, next) ~>
+        @io.use (client, next) ~>
             new ReservableServerClient client, @
+
+    /**
+     * Gets a ReservableServerAction instance
+     * @param {String} name Action name
+     */
+    action: (name) ->
+        return @actions[name]
 
     /**
      * Attempts to reserve an action for a client.
