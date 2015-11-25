@@ -1,6 +1,6 @@
 {
   "name": "reservable",
-  "version": "0.1.0-rc2",
+  "version": "0.1.0-rc3",
   "description": "socket.io middleware to simplify client action reservations",
   "main": "index.js",
   "scripts": {
