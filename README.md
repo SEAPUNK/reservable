@@ -11,8 +11,7 @@ socketeer server middleware and client to simplify client action reservations
 
 ---
 
-server example
----
+### server example
 
 ```javascript
 var socketeer = require('socketeer')
@@ -46,8 +45,7 @@ io.listen(12345)
 
 ```
 
-client example
----
+### client example
 
 ```javascript
 var socketeer = require('socketeer')
