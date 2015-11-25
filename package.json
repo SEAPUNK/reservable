@@ -11,8 +11,7 @@
     "url": "git+ssh://git@github.com/SEAPUNK/reservable.git"
   },
   "keywords": [
-    "socket.io",
-    "socketio",
+    "socketeer",
     "reservations",
     "reservable",
     "reserve"
@@ -26,6 +25,7 @@
   "dependencies": {
     "debug": "^2.2.0",
     "livescript": "^1.4.0",
+    "socketeer": "^0.2.0-rc1",
     "suspend": "^0.7.0"
   }
 }

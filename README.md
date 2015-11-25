@@ -5,27 +5,27 @@ server
 ---
 
 ```javascript
-var ioserver = require('socket.io')
+var socketeer = require('socketeer')
 var reservable = require('reservable')
 
-var io = ioserver()
+var io = new socketeer.Server()
 
-var reserve = reservable.server.create(io, {
+var reserve = new reservable.Server(io, {
     actions: ['item-feed']
 })
 
 var feedAction = reserve.action('item-feed')
 
-feedAction.beforeStart = function(resolve, reject){    
+feedAction.beforeStart = function(callback){
     if (busyProcessingFeed){
-        return reject("BUSY")
+        return callback(null, "BUSY")
     }
-    return resolve()
+    return callback(null)
 }
 
-feedAction.onData = function(data, respond){
+feedAction.onData = function(data, callback){
     var sku = processItem(data)
-    respond(sku)
+    callback(null, sku)
 }
 
 feedAction.onRelease = function(cleanRelease){
@@ -35,7 +35,7 @@ feedAction.onRelease = function(cleanRelease){
 io.listen(12345)
 ```
 
-attaches the following socket listeners:
+attaches the following Socketeer action listeners:
 
 - `reserve(name)`
     + reserves an action to the client
@@ -47,11 +47,11 @@ attaches the following socket listeners:
 
 ---
 
-`server.create(socketio, opts) -> ReservableServer`
+`new Server(io, opts) -> ReservableServer`
 
 creates an instance of `ReservableServer` to attach to the client
 
-- `socketio` - the socket.io server
+- `io` - the Socketeer server
 - `opts`
     + `actions` - an array of allowed actions
 
@@ -63,20 +63,24 @@ gets a `ReservableAction` instance for an action
 - `name` - the action name
 
 
-`ReservableAction | onBeforeStart(resolve, reject)`
+`ReservableAction | onBeforeStart(callback)`
 
-**optional** middleware that can prevent the client from attaching to an action before it happens. if the function is defined, then the function **must** call one of the callback functions
+**optional** middleware that can prevent the client from attaching to an action before it happens. if the function is defined, then the function **must** call the callback function
 
-- `resolve` - allow the attachment of the action
-- `reject(status)` - prevent the client from attaching to an action
-    + `status` - **optional** message to send to the client for why the server rejected the attachment
+- `callback(err, message)` - callback
+    + `err` - error, if any
+        * Use this for all unexpected errors, so when Reservable calls back, it returns with the message "ERROR"
+    + `message` - **optional** message to send to the client for why the server rejected the attachment
+        * This is for all expected errors. Don't put errors in here, but rejection reason messages, such as "BUSY", or "UNAUTHENTICATED", etc.
+        * If no message is specified, Reservable uses the rejection message "REJECTED".
 
-`ReservableAction | onData(data, respond)`
+`ReservableAction | onData(data, callback)`
 
-**optional** event handler that handles data from the client for the action. if the function is defined, then the function **must** call the respond function
+**optional** event handler that handles data from the client for the action. if the function is defined, then the function **must** call the callback function
 
 - `data` - data that the client sent
-- `respond(data)` - respond to the client
+- `callback(err, data)` - respond to the client
+    + `err` - error message, if any
     + `data` - **optional** data to send to the client with the response
 
 

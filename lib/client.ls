@@ -1,5 +1,3 @@
 class ReservableClient
-    
 
-export create = (client) ->
-    return new ReservableClient client
+module.exports = ReservableClient
