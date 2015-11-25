@@ -11,25 +11,25 @@ var reservable = require('reservable')
 var io = new socketeer.Server()
 
 var reserve = new reservable.Server(io, {
-    actions: ['item-feed']
+  actions: ['item-feed']
 })
 
 var feedAction = reserve.action('item-feed')
 
-feedAction.beforeStart = function(callback){
-    if (busyProcessingFeed){
-        return callback(null, "BUSY")
-    }
-    return callback(null)
+feedAction.onBeforeReserve = function (callback) {
+  if (busyProcessingFeed) {
+    return callback(null, 'BUSY')
+  }
+  return callback()
 }
 
-feedAction.onData = function(data, callback){
-    var sku = processItem(data)
-    callback(null, sku)
+feedAction.onData = function (data, callback) {
+  var sku = processItem(data)
+  callback(null, sku)
 }
 
-feedAction.onRelease = function(cleanRelease){
-    startProcessingFeed()
+feedAction.onRelease = function (cleanRelease) {
+  startProcessingFeed()
 }
 
 io.listen(12345)
@@ -37,12 +37,12 @@ io.listen(12345)
 
 attaches the following Socketeer action listeners:
 
-- `reserve(name)`
+- `_reservable_reserve(name)`
     + reserves an action to the client
     + client can reserve only one action at a time
-- `process(data)`
+- `_reservable_data(data)`
     + sends data for the reserved action
-- `release`
+- `_reservable_release`
     + releases a reserved action from the client
 
 ---
@@ -56,25 +56,32 @@ creates an instance of `ReservableServer` to attach to the client
     + `actions` - an array of allowed actions
 
 
-`ReservableServer.action(name) -> ReservableAction`
+`ReservableServer.action(name) -> ReservableServerAction`
 
-gets a `ReservableAction` instance for an action
+gets a `ReservableServerAction` instance for an action
 
 - `name` - the action name
 
 
-`ReservableAction | onBeforeStart(callback)`
+`ReservableServerAction | onBeforeReserve(client, callback)`
 
 **optional** middleware that can prevent the client from attaching to an action before it happens. if the function is defined, then the function **must** call the callback function
 
+- `client` - `ReservableServerClient` instance
 - `callback(err, message)` - callback
     + `err` - error, if any
-        * Use this for all unexpected errors, so when Reservable calls back, it returns with the message "ERROR"
+        * Use this for all unexpected errors, so Socketeer can handle them with the appropriate status.
     + `message` - **optional** message to send to the client for why the server rejected the attachment
         * This is for all expected errors. Don't put errors in here, but rejection reason messages, such as "BUSY", or "UNAUTHENTICATED", etc.
         * If no message is specified, Reservable uses the rejection message "REJECTED".
 
-`ReservableAction | onData(data, callback)`
+`ReservableServerAction | onReserve(client)`
+
+**optional** event handler for when the action has been reserved to the client
+
+- `client` - `ReservableServerClient` instance
+
+`ReservableServerAction | onData(data, callback)`
 
 **optional** event handler that handles data from the client for the action. if the function is defined, then the function **must** call the callback function
 
@@ -84,13 +91,14 @@ gets a `ReservableAction` instance for an action
     + `data` - **optional** data to send to the client with the response
 
 
-`ReservableAction | onRelease(cleanRelease)`
+`ReservableServerAction | onRelease(cleanRelease, oldClient)`
 
 **optional** event handler for when the action has been released
 
 - `cleanRelease`
     + `true` if client emitted a `release` for the action
     + `false` if the client abruptly disconnected before `release`ing
+- `oldClient` - a `ReservableServerClient` instance of the client that previously reserved the action
 
 client
 ---
