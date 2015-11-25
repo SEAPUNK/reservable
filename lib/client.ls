@@ -9,7 +9,7 @@ class ReservableClient
     /**
      * runs the reservation action
      */
-    try-reserve: ->
+    try-reserve: (allowed-responses) ->
         return new Promise (resolve, reject) ~>
             err, response <~ @client.emit '_reservable_reserve', @action
             if err and response is 1 # ActionResponse.NONEXISTENT
@@ -20,6 +20,7 @@ class ReservableClient
             if response is "OK"
                 return resolve true
             else if response is "RESERVED"
+            or if response in allowed-responses
                 return resolve false
             else
                 return reject new Error "server responded with '#{response}' on reservation attempt"
@@ -27,9 +28,9 @@ class ReservableClient
     /**
      * continuously tries to reserve the action
      */
-    reserve: suspend.promise ->*
+    reserve: suspend.promise (allowed-responses) ->*
         while true
-            ok = yield @try-reserve!
+            ok = yield @try-reserve allowed-responses
             break if ok
             yield sleep 1000
         @reserved = true

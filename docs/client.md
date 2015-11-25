@@ -4,7 +4,7 @@ client
 ---
 
 - [new ReservableClient(io, action)](#ReservableClient)
-- [ReservableClient.reserve()](#ReservableClient-reserve)
+- [ReservableClient.reserve(allowed-responses)](#ReservableClient-reserve)
 - [ReservableClient.send(data)](#ReservableClient-send)
 - [ReservableClient.release()](#ReservableClient-release)
 
@@ -19,17 +19,24 @@ creates an instance of `ReservableClient`
 - `action` - the action to reserve
 
 <a name="ReservableClient-reserve"></a>
-`ReservableClient.reserve() -> Promise<null, err>`
+`ReservableClient.reserve(allowed-responses) -> Promise<null, err>`
 
 continuously attempts to reserve the action every 1 second
 
+- `allowed-responses` - `String[]` - Allowed rejection responses.
+    + Client will not throw an error and try again if the response is a response in the specified array.
+
 - `resolve`s when the client was able to reserve the action
 - `reject`s when the client encounters an error or a message other than "RESERVED" or "OK"
+
+
 
 <a name="ReservableClient-send"></a>
 `ReservableClient.send(data) -> Promise<response, err>`
 
 sends data to the reserved action
+
+- `data` - `Object` - data to send to reserved action
 
 - `resolve`s when the sending of data was successful
   + `response` is the response from the server
