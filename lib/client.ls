@@ -9,7 +9,7 @@ class ReservableClient
     /**
      * runs the reservation action
      */
-    try-reserve = ->
+    try-reserve: ->
         return new Promise (resolve, reject) ~>
             err, response <~ @client.emit '_reservable_reserve', @action
             if err and response is 1 # ActionResponse.NONEXISTENT
