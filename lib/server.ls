@@ -59,6 +59,8 @@ class ReservableServer
             return do
                 ok: false
                 data: "action is not reserved for the client (should never happen)"
-        return yield @actions[name].data data
+        return do
+            ok: true
+            data: yield @actions[name].data data
 
 module.exports = ReservableServer
