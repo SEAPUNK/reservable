@@ -26,7 +26,7 @@ class ReservableServerAction
     release: (clean) ->
         old-client = @client
         if typeof @on-release is 'function'
-            set-immedate ~>
+            set-immediate ~>
                 @on-release clean, old-client
         @client = null
 
