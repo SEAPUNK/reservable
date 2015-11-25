@@ -20,7 +20,7 @@ class ReservableClient
             if response is "OK"
                 return resolve true
             else if response is "RESERVED"
-            or if response in allowed-responses
+            or response in allowed-responses
                 return resolve false
             else
                 return reject new Error "server responded with '#{response}' on reservation attempt"
