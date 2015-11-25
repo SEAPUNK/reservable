@@ -134,7 +134,7 @@ creates an instance of `ReservableClient`
 
 `ReservableClient.reserve(name) -> Promise<null, err>`
 
-continuously attempts to reserve the action
+continuously attempts to reserve the action every 1 second
 
 - `resolve`s when the client was able to reserve the action
 - `reject`s when the client encounters an error or a message other than "RESERVED" or "OK"
