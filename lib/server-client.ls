@@ -26,7 +26,7 @@ class ReservableServerClient
             return do
                 ok: false
                 data: "client does not have any action reserved"
-        return yield @manager.data @reserved, @client, data
+        return yield @manager.data @reserved, @, data
 
     /**
      * Handles a release attempt.
@@ -34,7 +34,7 @@ class ReservableServerClient
     handle-release: suspend.callback ->*
         if not @reserved
             return true
-        ok = @manager.release @reserved, @client, true
+        ok = @manager.release @reserved, @, true
         if ok then @reserved = null
         return ok
 
@@ -43,6 +43,6 @@ class ReservableServerClient
      */
     handle-close: ->
         return if not @reserved
-        @manager.release @reserved, @client, false
+        @manager.release @reserved, @, false
 
 module.exports = ReservableServerClient
