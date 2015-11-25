@@ -1,6 +1,6 @@
 {
   "name": "reservable",
-  "version": "0.0.0",
+  "version": "0.1.0-rc1",
   "description": "socket.io middleware to simplify client action reservations",
   "main": "index.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "dependencies": {
     "debug": "^2.2.0",
     "livescript": "^1.4.0",
+    "sleep-promise": "^1.0.0",
     "socketeer": "^0.2.0-rc1",
     "suspend": "^0.7.0"
   }
