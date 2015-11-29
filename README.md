@@ -5,7 +5,7 @@ reservable
 
 ---
 
-socketeer server middleware and client to simplify client action reservations
+socketeer server middleware and client to simplify client action reservations. think: mutex
 
 [documentation](docs/README.md)
 
