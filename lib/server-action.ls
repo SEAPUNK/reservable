@@ -1,3 +1,5 @@
+require! 'suspend'
+
 class ReservableServerAction
     (@name) ->
         @client = null
