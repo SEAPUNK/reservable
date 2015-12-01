@@ -1,6 +1,6 @@
 {
   "name": "reservable",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "simplified client action reservations for socketeer",
   "main": "index.js",
   "scripts": {
