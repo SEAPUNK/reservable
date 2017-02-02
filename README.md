@@ -1,6 +1,8 @@
 reservable
 ===
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/SEAPUNK/reservable.svg)](https://greenkeeper.io/)
+
 [![npm version](https://img.shields.io/npm/v/reservable.svg?style=flat-square)](https://npmjs.com/package/reservable)[![travis build](https://img.shields.io/travis/SEAPUNK/reservabe.svg?style=flat-square)](https://travis-ci.org/SEAPUNK/reservable)[![javascript standard style](https://img.shields.io/badge/code%20style-standard-blue.svg?style=flat-square)](http://standardjs.com/)
 
 ---
