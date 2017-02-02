@@ -25,7 +25,7 @@
   "dependencies": {
     "debug": "^2.2.0",
     "livescript": "^1.4.0",
-    "sleep-promise": "^1.0.0",
+    "sleep-promise": "^2.0.0",
     "suspend": "^0.7.0"
   }
 }
